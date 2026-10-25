@@ -2,6 +2,7 @@
 
 > Monitoramento inteligente de ambientes de armazenamento de vinhos com ESP32, FIWARE e STH-Comet.
 > Projeto **CP5 — Vinheria Full** (Edge Computing & Computer Systems).
+> Simulação no Wokwi: https://wokwi.com/projects/477186077844256769
 
 ![stack](https://img.shields.io/badge/ESP32-Arduino-blue) ![fiware](https://img.shields.io/badge/FIWARE-Orion%20·%20IoT%20Agent%20UL%20·%20STH--Comet-8a2be2) ![backend](https://img.shields.io/badge/Spring%20Boot-3.5-6db33f) ![frontend](https://img.shields.io/badge/React-19%20·%20Vite%20·%20Tailwind-61dafb)
 
@@ -120,7 +121,7 @@ Simulação em [`wokwi/`](wokwi): ESP32 + **DHT22** + fotoresistor + buzzer + LE
 | GPIO 2 | LED azul (+ resistor 220 Ω) |
 | GPIO 21 / GPIO 22 | LCD 16x2 I2C — SDA / SCL (fora da protoboard; VCC no VIN, endereço `LCD_ADDR`) |
 
-> Link do projeto Wokwi: https://wokwi.com/projects/477186077844256769 — _confirme que a versão com LCD está salva e que o projeto está público._
+**Simulação no Wokwi:** https://wokwi.com/projects/477186077844256769
 
 ## Endpoints principais
 
