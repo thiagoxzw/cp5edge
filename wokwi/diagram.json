@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "author": "WineGuard - CP5 Vinheria Full",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-breadboard-half",
+      "id": "bb1",
+      "top": 330,
+      "left": -40,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": 480,
+      "left": -150,
+      "rotate": 180,
+      "attrs": {
+        "temperature": "13.5",
+        "humidity": "66"
+      }
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "ldr1",
+      "top": 480,
+      "left": 150,
+      "rotate": 270,
+      "attrs": {
+        "lux": "10"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": 330,
+      "left": 260,
+      "attrs": {
+        "volume": "0.2"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 120,
+      "left": 250,
+      "attrs": {
+        "color": "blue"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 200,
+      "left": 250,
+      "rotate": 90,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -110,
+      "left": 210,
+      "attrs": {
+        "pins": "i2c"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX0",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX0",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "esp:3V3",
+      "bb1:tp.1",
+      "red",
+      []
+    ],
+    [
+      "esp:GND.1",
+      "bb1:tn.1",
+      "black",
+      []
+    ],
+    [
+      "dht1:VCC",
+      "bb1:tp.5",
+      "red",
+      []
+    ],
+    [
+      "dht1:GND",
+      "bb1:tn.5",
+      "black",
+      []
+    ],
+    [
+      "dht1:SDA",
+      "esp:D15",
+      "green",
+      []
+    ],
+    [
+      "ldr1:VCC",
+      "bb1:tp.9",
+      "red",
+      []
+    ],
+    [
+      "ldr1:GND",
+      "bb1:tn.9",
+      "black",
+      []
+    ],
+    [
+      "ldr1:AO",
+      "esp:D34",
+      "orange",
+      []
+    ],
+    [
+      "esp:D18",
+      "bz1:2",
+      "purple",
+      []
+    ],
+    [
+      "bz1:1",
+      "bb1:tn.13",
+      "black",
+      []
+    ],
+    [
+      "esp:D2",
+      "led1:A",
+      "blue",
+      []
+    ],
+    [
+      "led1:C",
+      "r1:1",
+      "black",
+      []
+    ],
+    [
+      "r1:2",
+      "bb1:tn.17",
+      "black",
+      []
+    ],
+    [
+      "lcd1:VCC",
+      "esp:VIN",
+      "red",
+      []
+    ],
+    [
+      "lcd1:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "lcd1:SDA",
+      "esp:D21",
+      "green",
+      []
+    ],
+    [
+      "lcd1:SCL",
+      "esp:D22",
+      "yellow",
+      []
+    ]
+  ],
+  "dependencies": {}
+}

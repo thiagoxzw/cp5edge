@@ -1,0 +1,5 @@
+# Bibliotecas do projeto Wokwi (wokwi.com > Library Manager)
+PubSubClient
+DHT sensor library
+Adafruit Unified Sensor
+LiquidCrystal I2C
