@@ -1,0 +1,14 @@
+# WineGuard — dependências do projeto (CP5 Vinheria Full)
+#
+# O roteiro da entrega pede um requirements.txt. Este projeto NÃO tem código Python: o dashboard é
+# React/TypeScript e o backend é Java. Por isso não há pacotes pip abaixo (pip install -r requirements.txt
+# não instala nada). As dependências reais, com versão fixa, estão nos arquivos de cada parte:
+#
+#   backend/pom.xml            Java 21, Spring Boot 3.5.16 (web, data-jpa, validation, actuator), PostgreSQL driver,
+#                              Eclipse Paho MQTT 1.2.5, springdoc-openapi (Maven)
+#   frontend/package.json      React, Vite, TypeScript, TanStack Query, Recharts (npm; versões no package-lock.json)
+#   wokwi/libraries.txt        firmware: PubSubClient, DHT sensor library, Adafruit Unified Sensor, LiquidCrystal I2C
+#
+# Ferramentas para executar:
+#   Docker + Docker Compose (sobe PostgreSQL, backend e frontend; o FIWARE vem de github.com/fabiocabrini/fiware)
+#   Arduino IDE ou arduino-cli com o core ESP32 (placa "ESP32 Dev Module") para gravar o firmware

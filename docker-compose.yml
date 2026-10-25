@@ -1,0 +1,140 @@
+# =============================================================================
+# WineGuard — stack completa
+#
+#   docker compose --profile fiware up -d --build   # FIWARE local + aplicação
+#   docker compose up -d --build                    # só aplicação (FIWARE remoto via .env)
+#
+# Portas: 5173 frontend | 8080 backend | 1026 Orion | 4041 IoT Agent | 7896 IoTA HTTP
+#         8666 STH-Comet | 1883 MQTT | 5432 PostgreSQL
+# =============================================================================
+name: wineguard
+
+services:
+  # ---------------------------------------------------------------- FIWARE --
+  mongo-db:
+    image: mongo:4.4
+    profiles: [fiware]
+    command: --nojournal
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      retries: 10
+
+  orion:
+    image: fiware/orion:3.10.1
+    profiles: [fiware]
+    command: -dbhost mongo-db -logLevel INFO
+    depends_on:
+      mongo-db:
+        condition: service_healthy
+    ports:
+      - "1026:1026"
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0.18
+    profiles: [fiware]
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  iot-agent:
+    image: fiware/iotagent-ul:3.4.0
+    profiles: [fiware]
+    depends_on:
+      - mongo-db
+      - mosquitto
+      - orion
+    ports:
+      - "4041:4041"   # API de provisionamento (north port)
+      - "7896:7896"   # UltraLight via HTTP (south port)
+    environment:
+      IOTA_CB_HOST: orion
+      IOTA_CB_PORT: "1026"
+      IOTA_CB_NGSI_VERSION: v2
+      IOTA_NORTH_PORT: "4041"
+      IOTA_REGISTRY_TYPE: mongodb
+      IOTA_MONGO_HOST: mongo-db
+      IOTA_MONGO_PORT: "27017"
+      IOTA_MONGO_DB: iotagentul
+      IOTA_PROVIDER_URL: http://iot-agent:4041
+      IOTA_MQTT_HOST: mosquitto
+      IOTA_MQTT_PORT: "1883"
+      IOTA_HTTP_PORT: "7896"
+      IOTA_DEFAULT_RESOURCE: /iot/d
+      IOTA_AUTOCAST: "true"      # "Number" chega ao Orion como número (necessário para agregações do STH)
+      IOTA_TIMESTAMP: "true"     # adiciona TimeInstant em cada medição
+      IOTA_LOG_LEVEL: INFO
+
+  sth-comet:
+    image: fiware/sth-comet:2.10.0
+    profiles: [fiware]
+    depends_on:
+      - mongo-db
+    ports:
+      - "8666:8666"
+    environment:
+      STH_HOST: 0.0.0.0
+      STH_PORT: "8666"
+      DB_URI: mongo-db:27017
+      LOGOPS_LEVEL: INFO
+
+  # ------------------------------------------------------------- aplicação --
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped   # volta sozinho se o Docker Desktop reiniciar
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-wineguard}
+      POSTGRES_USER: ${POSTGRES_USER:-wineguard}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+    ports:
+      - "127.0.0.1:5432:5432"   # só o próprio PC; o backend usa a rede interna do Docker
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-wineguard}"]
+      interval: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped   # volta sozinho se o Docker Desktop reiniciar
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-wineguard}
+      DATABASE_USERNAME: ${POSTGRES_USER:-wineguard}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      WINEGUARD_MODE: ${WINEGUARD_MODE:-fiware}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:5173}
+      SEED_DEVICES: ${SEED_DEVICES:-true}
+      FIWARE_ORION_URL: ${FIWARE_ORION_URL:-http://orion:1026}
+      FIWARE_STH_URL: ${FIWARE_STH_URL:-http://sth-comet:8666}
+      FIWARE_IOTA_URL: ${FIWARE_IOTA_URL:-http://iot-agent:4041}
+      FIWARE_SERVICE: ${FIWARE_SERVICE:-smart}
+      FIWARE_SERVICE_PATH: ${FIWARE_SERVICE_PATH:-/}
+      FIWARE_API_KEY: ${FIWARE_API_KEY:-TEF}
+      FIWARE_ENTITY_TYPE: ${FIWARE_ENTITY_TYPE:-WineSensor}
+      FIWARE_IOTA_CBROKER_URL: ${FIWARE_IOTA_CBROKER_URL:-http://orion:1026}
+      FIWARE_STH_NOTIFY_URL: ${FIWARE_STH_NOTIFY_URL:-http://sth-comet:8666/notify}
+      FIWARE_AUTO_PROVISION: ${FIWARE_AUTO_PROVISION:-true}
+      MQTT_BROKER_URL: ${MQTT_BROKER_URL:-tcp://mosquitto:1883}
+      MQTT_USERNAME: ${MQTT_USERNAME:-}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-}
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped   # volta sozinho se o Docker Desktop reiniciar
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo-data:
+  pg-data:
