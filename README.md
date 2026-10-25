@@ -204,10 +204,11 @@ Resultados registrados durante o desenvolvimento (substitua/complete com prints 
 
 ## Integrantes
 
-> Preencha manualmente.
-
 | Nome | RM |
 |---|---|
-| _Nome_ | _RM_ |
-| _Nome_ | _RM_ |
-| _Nome_ | _RM_ |
+| Thiago Souza de Lima | 568732 |
+| Matheus Akira Aso | 572830 |
+| João Vitor | 571389 |
+| Kelvyn Lukas | 572950 |
+| Nicolas Cinel Moreira | 572940 |
+| Luis Fernando | 570959 |
