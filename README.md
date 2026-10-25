@@ -149,6 +149,7 @@ wineguard/
 │   ├── WineGuard/      firmware ESP32 (Arduino)
 │   └── tools/          build-wokwi.mjs
 ├── wokwi/              diagram.json, sketch.ino (gerado), libraries.txt
+├── sth-python/         script Python do histórico do STH-Comet (versão do Colab da disciplina)
 ├── infra/mosquitto/    configuração do broker
 ├── docs/               arquitetura, instalação, FIWARE, backend, frontend, ESP32, operação, troubleshooting
 ├── docker-compose.yml
@@ -167,6 +168,13 @@ cd frontend && npm run build
 
 # sem Maven instalado:
 docker run --rm -v "$PWD/backend:/app" -w /app maven:3.9-eclipse-temurin-21 mvn -B test
+```
+
+Histórico direto do STH-Comet, sem passar pelo backend (versão em Python do Colab da disciplina):
+
+```bash
+pip install -r sth-python/requirements.txt
+python sth-python/sth_dashboard.py --host http://<IP_DA_EC2>:8666 --lastN 30
 ```
 
 O teste `StandaloneFlowIntegrationTest` percorre o ciclo inteiro: leitura normal → anomalia → incidente único → LED + buzzer reportados pelo dispositivo → normalização → incidente encerrado.
@@ -201,7 +209,7 @@ Resultados registrados durante o desenvolvimento (substitua/complete com prints 
 - PostgreSQL publicado só em `127.0.0.1`. `.env`, `firmware/WineGuard/config.h` e sketches gerados com Wi-Fi ficam fora do git.
 - A configuração de triggers é única para todos os ambientes.
 - LCD validado no Wokwi; teste no hardware físico pendente (ver [docs/esp32.md](docs/esp32.md)).
-- `requirements.txt`: o projeto não tem código Python; o arquivo explica onde estão as dependências reais.
+- `requirements.txt`: instala as dependências do script [sth-python](sth-python/README.md) e indica onde estão as do backend, frontend e firmware.
 
 ## Integrantes
 
