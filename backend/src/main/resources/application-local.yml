@@ -1,0 +1,7 @@
+# Profile "local": roda sem PostgreSQL, usando H2 em arquivo (./data).
+# Uso: SPRING_PROFILES_ACTIVE=local mvn spring-boot:run
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/wineguard;MODE=PostgreSQL;AUTO_SERVER=TRUE
+    username: sa
+    password:
