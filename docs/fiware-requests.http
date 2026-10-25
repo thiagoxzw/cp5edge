@@ -1,0 +1,68 @@
+### Requisições FIWARE do WineGuard (REST Client do VS Code / IntelliJ HTTP Client)
+@orion = http://localhost:1026
+@iota = http://localhost:4041
+@sth = http://localhost:8666
+@service = smart
+@servicepath = /
+@entity = urn:ngsi-ld:WineSensor:wg001
+
+### Versões
+GET {{orion}}/version
+
+###
+GET {{iota}}/iot/about
+
+###
+GET {{sth}}/version
+
+### Service groups
+GET {{iota}}/iot/services
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Dispositivos provisionados
+GET {{iota}}/iot/devices
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Entidades (valores atuais)
+GET {{orion}}/v2/entities?type=WineSensor&options=keyValues
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Subscriptions
+GET {{orion}}/v2/subscriptions
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Comando: LED piscando
+PATCH {{orion}}/v2/entities/{{entity}}/attrs?type=WineSensor
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+Content-Type: application/json
+
+{ "ledOn": { "type": "command", "value": "" } }
+
+### Comando: parar todos os alertas
+PATCH {{orion}}/v2/entities/{{entity}}/attrs?type=WineSensor
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+Content-Type: application/json
+
+{ "alertStop": { "type": "command", "value": "all" } }
+
+### Histórico raw (últimos 20)
+GET {{sth}}/STH/v1/contextEntities/type/WineSensor/id/{{entity}}/attributes/temperature?lastN=20
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Histórico agregado por hora
+GET {{sth}}/STH/v1/contextEntities/type/WineSensor/id/{{entity}}/attributes/temperature?aggrMethod=sum&aggrPeriod=hour&dateFrom=2026-01-01T00:00:00.000Z&dateTo=2030-01-01T00:00:00.000Z
+fiware-service: {{service}}
+fiware-servicepath: {{servicepath}}
+
+### Medição via HTTP UltraLight (alternativa ao MQTT, útil para teste sem ESP32)
+POST http://localhost:7896/iot/d?k=TEF&i=wg001
+Content-Type: text/plain
+
+t|13.5|h|66|l|5|a|none|k|off|d|off|u|42
