@@ -3,6 +3,7 @@
 > Monitoramento inteligente de ambientes de armazenamento de vinhos com ESP32, FIWARE e STH-Comet.
 > Projeto **CP5 — Vinheria Full** (Edge Computing & Computer Systems).
 > Simulação no Wokwi: https://wokwi.com/projects/477186077844256769
+> Encapsulamento (Tinkercad): https://www.tinkercad.com/things/4vNaEzQqxAV-swanky-snicket?sharecode=s_-X8ldYl1HGsWg9aQjtCvaH0IfyohXQ3yXTlPRuBvE
 
 ![stack](https://img.shields.io/badge/ESP32-Arduino-blue) ![fiware](https://img.shields.io/badge/FIWARE-Orion%20·%20IoT%20Agent%20UL%20·%20STH--Comet-8a2be2) ![backend](https://img.shields.io/badge/Spring%20Boot-3.5-6db33f) ![frontend](https://img.shields.io/badge/React-19%20·%20Vite%20·%20Tailwind-61dafb)
 
@@ -123,6 +124,10 @@ Simulação em [`wokwi/`](wokwi): ESP32 + **DHT22** + fotoresistor + buzzer + LE
 
 **Simulação no Wokwi:** https://wokwi.com/projects/477186077844256769
 
+## Encapsulamento
+
+Caixa do dispositivo modelada no Tinkercad: https://www.tinkercad.com/things/4vNaEzQqxAV-swanky-snicket?sharecode=s_-X8ldYl1HGsWg9aQjtCvaH0IfyohXQ3yXTlPRuBvE
+
 ## Endpoints principais
 
 | Método | Endpoint | Descrição |
@@ -163,7 +168,7 @@ Rotina do operador, cadastro de dispositivos, configuração de triggers e o **r
 ## Testes
 
 ```bash
-cd backend && mvn test     # 38 testes: triggers, Wine Score, WineGuard Intelligence, alertas manuais, UltraLight, STH e fluxo completo
+cd backend && mvn test     # 41 testes: triggers, Wine Score, WineGuard Intelligence, alertas manuais, UltraLight, STH e fluxo completo
 cd frontend && npm run build
 
 # sem Maven instalado:
@@ -185,7 +190,7 @@ Resultados registrados durante o desenvolvimento (substitua/complete com prints 
 
 | Data | Verificação | Resultado |
 | --- | --- | --- |
-| 25/10 | `mvn test` (backend) | 38 testes, 0 falhas |
+| 25/10 | `mvn test` (backend) | 41 testes, 0 falhas |
 | 25/10 | Build do frontend (`tsc` + `vite build`) | OK |
 | 25/10 | Compilação do firmware (ESP32, core 3.3.11) | OK, 72% da flash (com LCD) |
 | 25/10 | Comando manual `alertTemp` (dispositivo virtual) | alerta mantido por 74 s sem ser desfeito (antes: ~5 s) |
