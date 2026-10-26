@@ -3,6 +3,7 @@
 > Monitoramento inteligente de ambientes de armazenamento de vinhos com ESP32, FIWARE e STH-Comet.
 > Projeto **CP5 — Vinheria Full** (Edge Computing & Computer Systems).
 > Simulação no Wokwi: https://wokwi.com/projects/477186077844256769
+> Vídeo: https://youtu.be/8zzZvrUPh54
 > Encapsulamento (Tinkercad): https://www.tinkercad.com/things/4vNaEzQqxAV-swanky-snicket?sharecode=s_-X8ldYl1HGsWg9aQjtCvaH0IfyohXQ3yXTlPRuBvE
 
 ![stack](https://img.shields.io/badge/ESP32-Arduino-blue) ![fiware](https://img.shields.io/badge/FIWARE-Orion%20·%20IoT%20Agent%20UL%20·%20STH--Comet-8a2be2) ![backend](https://img.shields.io/badge/Spring%20Boot-3.5-6db33f) ![frontend](https://img.shields.io/badge/React-19%20·%20Vite%20·%20Tailwind-61dafb)
@@ -186,7 +187,7 @@ O teste `StandaloneFlowIntegrationTest` percorre o ciclo inteiro: leitura normal
 
 ## Evidências
 
-Resultados registrados durante o desenvolvimento (substitua/complete com prints e vídeo):
+Resultados registrados durante o desenvolvimento:
 
 | Data | Verificação | Resultado |
 | --- | --- | --- |
@@ -198,15 +199,7 @@ Resultados registrados durante o desenvolvimento (substitua/complete com prints 
 | 25/10 | Wokwi → FIWARE na EC2 | medições no Orion; LCD exibindo valores (verificação visual) |
 | 22/10 | ESP32 físico (DHT11, LDR, buzzer, LED) → FIWARE na EC2 | medições no Orion e STH; alertas automáticos e normalização confirmados |
 
-> Adicione aqui prints/vídeo do dashboard, do Modo Demo, do ESP32 com LED/buzzer, do Wokwi e das respostas do Orion/STH-Comet.
-
-| Evidência | Arquivo |
-|---|---|
-| Dashboard — visão geral | `docs/evidencias/dashboard.png` |
-| Modo Demo concluído (11/11) | `docs/evidencias/demo.png` |
-| Central de incidentes | `docs/evidencias/incidentes.png` |
-| Gráfico histórico (STH-Comet) | `docs/evidencias/historico.png` |
-| ESP32 físico / Wokwi | `docs/evidencias/esp32.jpg` |
+**Vídeo da solução funcionando (Wokwi → FIWARE → dashboard):** https://youtu.be/8zzZvrUPh54
 
 ## Segurança e limitações conhecidas
 
